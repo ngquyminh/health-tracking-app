@@ -43,13 +43,18 @@ UserSchema.statics.addUser = async function (user, callback) {
 };
 
 UserSchema.statics.editUser = async function (user, callback) {
+  const { userName, password } = user;
   try {
     const fetchedUser = await this.findOne({ _id: user.id });
     if (!fetchedUser) {
       callback(DOCUMENT_NOT_FOUND);
       return;
     }
-    await fetchedUser.set({ ...user }).save();
+    let hashedPassword = fetchedUser.password;
+    if (password && userName) {
+      hashedPassword = generateHashedPwd(userName, password);
+    }
+    await fetchedUser.set({ ...user, password: hashedPassword }).save();
     callback(null, fetchedUser);
   } catch (err) {
     callback(err);

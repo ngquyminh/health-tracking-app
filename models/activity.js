@@ -19,7 +19,10 @@ const ActivitySchema = new mongoose.Schema({
   },
 });
 
-ActivitySchema.statics.getAcitivityById = async (activityId, callback) => {
+ActivitySchema.statics.getAcitivityById = async function (
+  activityId,
+  callback
+) {
   try {
     const fetchtedActivity = await this.findOne({ _id: activityId });
     if (!fetchedActivity) {
@@ -52,7 +55,7 @@ ActivitySchema.statics.addActivity = async function (
   }
 };
 
-ActivitySchema.statics.editActivity = async (activity, callback) => {
+ActivitySchema.statics.editActivity = async function (activity, callback) {
   try {
     const fetchedActivity = await this.findOne({ _id: activity.id });
     if (!fetchedActivity) {
@@ -67,11 +70,12 @@ ActivitySchema.statics.editActivity = async (activity, callback) => {
       }
     });
   } catch (err) {
+    console.log(err);
     callback(err);
   }
 };
 
-ActivitySchema.statics.removeActivity = async (activityId, callback) => {
+ActivitySchema.statics.removeActivity = async function (activityId, callback) {
   try {
     const deletedActivity = await this.deleteOne({
       _id: activityId,
