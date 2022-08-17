@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const bmiRateSchema = new mongoose.Schema({
+const healthRate = new mongoose.Schema({
   weight: Number,
   height: Number,
   bmiRate: Number,
@@ -14,4 +14,4 @@ const bmiRateSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("BmiRate", bmiRateSchema);
+module.exports = mongoose.model("HealthRate", healthRate);
