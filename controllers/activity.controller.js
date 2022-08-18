@@ -90,4 +90,29 @@ module.exports = {
       res.status(500).json(response);
     }
   },
+  getActivitiesInTimeInterval: async (req, res) => {
+    const { userId, startedTime, endedTime } = req.query;
+    try {
+      Activity.fetchActivitiesInTimeInterval(
+        userId,
+        startedTime,
+        endedTime,
+        (err, document) => {
+          if (err) {
+            const response = CustomResponse.SERVER_ERROR;
+            response.trace = err;
+            res.status(500).json(response);
+            return;
+          }
+          res
+            .status(200)
+            .json({ ...CustomResponse.SUCCESSFULLY_STATUS, data: document });
+        }
+      );
+    } catch (err) {
+      const response = CustomResponse.SERVER_ERROR;
+      response.trace = err;
+      res.status(500).json(response);
+    }
+  },
 };

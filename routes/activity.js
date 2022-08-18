@@ -5,6 +5,10 @@ const router = express.Router();
 
 router.get("/get", activityCtrl.getActivityById);
 router.get("/getUserActivities", activityCtrl.getUserActivities);
+router.get(
+  "/getActivitiesInTimeInterval",
+  activityCtrl.getActivitiesInTimeInterval
+);
 router.post("/add", activityCtrl.addActivity);
 router.put("/edit", activityCtrl.editActivity);
 

@@ -97,6 +97,29 @@ ActivitySchema.statics.fetchUserActivities = async function (userId, callback) {
   }
 };
 
+ActivitySchema.statics.fetchActivitiesInTimeInterval = async function (
+  userId,
+  startedTime,
+  endedTime,
+  callback
+) {
+  try {
+    const startedTimeISO = new Date(startedTime).toISOString();
+    const endedTimeISO = new Date(endedTime).toISOString();
+    const activities = await this.find({
+      user: mongodb.ObjectId(userId),
+      startedTime: {
+        $gt: startedTimeISO,
+        $lt: endedTimeISO,
+      },
+    }).exec();
+    callback(null, activities);
+  } catch (err) {
+    console.log(err);
+    callback(err);
+  }
+};
+
 ActivitySchema.set("toObject", { getters: true });
 ActivitySchema.set("toJSON", { getters: true });
 
