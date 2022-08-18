@@ -37,6 +37,31 @@ module.exports = {
       res.status(500).json(response);
     }
   },
+  getUserActivitiesByType: async (req, res) => {
+    const { userId, activityType } = req.query;
+    try {
+      await Activity.fetchUserActivitiesByType(
+        userId,
+        activityType,
+        (err, document) => {
+          if (err) {
+            const response = CustomResponse.SERVER_ERROR;
+            response.trace = err;
+            res.status(500).json(response);
+            return;
+          }
+          res.status(200).json({
+            ...CustomResponse.SUCCESSFULLY_STATUS,
+            data: document,
+          });
+        }
+      );
+    } catch (err) {
+      const response = CustomResponse.SERVER_ERROR;
+      response.trace = err;
+      res.status(500).json(response);
+    }
+  },
   addActivity: async (req, res) => {
     const { userId } = req.query;
     try {
@@ -75,7 +100,7 @@ module.exports = {
   deleteActivity: async (req, res) => {
     const { id } = req.body;
     try {
-      Activity.removeActivity = async(id, (err, document) => {
+      Activity.removeActivity(id, (err, document) => {
         if (err) {
           const response = CustomResponse.SERVER_ERROR;
           response.trace = err;
@@ -91,10 +116,11 @@ module.exports = {
     }
   },
   getActivitiesInTimeInterval: async (req, res) => {
-    const { userId, startedTime, endedTime } = req.query;
+    const { userId, activityType, startedTime, endedTime } = req.query;
     try {
       Activity.fetchActivitiesInTimeInterval(
         userId,
+        activityType,
         startedTime,
         endedTime,
         (err, document) => {

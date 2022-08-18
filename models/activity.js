@@ -45,11 +45,11 @@ ActivitySchema.statics.addActivity = async function (
     const user = await User.findOne({ _id: userId });
     if (!user) {
       callback(DOCUMENT_NOT_FOUND);
-    } else {
-      newActivity.set({ user });
-      await newActivity.save();
-      callback(null, newActivity);
+      return;
     }
+    newActivity.set({ user });
+    await newActivity.save();
+    callback(null, newActivity);
   } catch (err) {
     callback(err);
   }
@@ -97,8 +97,25 @@ ActivitySchema.statics.fetchUserActivities = async function (userId, callback) {
   }
 };
 
+ActivitySchema.statics.fetchUserActivitiesByType = async function (
+  userId,
+  activityType,
+  callback
+) {
+  try {
+    const activities = await this.find({
+      user: mongodb.ObjectId(userId),
+      activityType,
+    }).exec();
+    callback(null, activities);
+  } catch (err) {
+    callback(err);
+  }
+};
+
 ActivitySchema.statics.fetchActivitiesInTimeInterval = async function (
   userId,
+  activityType,
   startedTime,
   endedTime,
   callback
@@ -108,6 +125,7 @@ ActivitySchema.statics.fetchActivitiesInTimeInterval = async function (
     const endedTimeISO = new Date(endedTime).toISOString();
     const activities = await this.find({
       user: mongodb.ObjectId(userId),
+      activityType,
       startedTime: {
         $gt: startedTimeISO,
         $lt: endedTimeISO,
