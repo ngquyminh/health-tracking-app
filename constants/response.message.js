@@ -29,10 +29,10 @@ module.exports = {
       msgError: true,
     },
   },
-  SUCCESSFULLY_STATUS: {
-    message: {
-      msgBody: "Execute successfully",
-      msgErro: false,
-    },
-  },
+  // SUCCESSFULLY_STATUS: {
+  //   message: {
+  //     msgBody: "Execute successfully",
+  //     msgErro: false,
+  //   },
+  // },
 };

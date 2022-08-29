@@ -5,13 +5,20 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
 
-const mongoose = require("mongoose");
 
 const userRouter = require("./routes/user");
 const activityRouter = require("./routes/activity");
 const healthRateRouter = require("./routes/healthRate");
 
 var app = express();
+
+const cors = require('cors');
+app.disable('etag');
+
+// use it before all route definitions
+app.use(cors({origin: 'http://localhost:3001'}));
+
+const mongoose = require("mongoose");
 
 mongoose
   .connect("mongodb://localhost:27017", {

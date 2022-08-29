@@ -11,6 +11,7 @@ const ActivitySchema = new mongoose.Schema({
   duration: Number,
   step: Number,
   sleepRate: Number,
+  sleepHour: Number,
   tripA: String,
   tripB: String,
   user: {

@@ -74,7 +74,7 @@ UserSchema.statics.login = async function (user, callback) {
       callback(SERVER_ERROR);
       return;
     }
-    callback(null);
+    callback(null, fetchedUser);
   } catch (err) {
     callback(err);
   }

@@ -52,14 +52,14 @@ module.exports = {
     });
   },
   login: async (req, res) => {
-    User.login(req.body, (err) => {
+    User.login(req.body, (err, document) => {
       if (err) {
         const response = CustomResponse.SERVER_ERROR;
         response.trace = err;
         res.status(500).json(response);
         return;
       }
-      res.status(200).json({ ...CustomResponse.SUCCESSFULLY_STATUS });
+      res.status(200).json({ ...CustomResponse.SUCCESSFULLY_STATUS, data: document });
     });
   },
 };
